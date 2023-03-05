@@ -14,7 +14,6 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
 
         protected override void OnTokenClick()
         {
-            Debug.Log("im here!!");
             Smash();
         }
     }
