@@ -21,7 +21,7 @@ namespace Happyflow
         private void Initialize()
         {
             // Register all your services next.
-            ServiceLocator.Instance.Register<INetworkService>(new HttpClientService("http://localhost:3555"));
+            ServiceLocator.Instance.Register<INetworkService>(new HttpClientService("http://localhost:3101"));
             ServiceLocator.Instance.Register<IAssetLoaderService>(new AssetLoaderService(AssetLoaderType.Addressable, m_AssetMapping));
             
             // Application is ready to start, load your main scene.
