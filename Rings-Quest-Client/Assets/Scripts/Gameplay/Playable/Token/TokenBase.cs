@@ -1,4 +1,6 @@
+using System;
 using Happyflow.RingsQuest.Gameplay.Playable.DTO;
+using Happyflow.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,16 +9,27 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
     /// <summary>
     /// Token base implementation for the <see cref="PlayableBase"/>.
     /// </summary>
-    public abstract class TokenBase : PlayableBase, IPointerClickHandler
+    public class TokenBase : PlayableBase
     {
         [SerializeField] private float m_DistanceToSmash = 0.1f;
+        [SerializeField] private TapDetector m_TapDetector;
         
         protected float m_Speed;
-        protected Vector3 m_Direction;
+        private Vector3 m_Direction;
         
         private Vector3 Destination => m_VerticesMapService.GetVertexTransform(PlayableDTO.Vertices[0]);
         private bool IsInDestinationRadius => Vector2.Distance(gameObject.transform.position, Destination) < m_DistanceToSmash;
-        
+
+        private void Start()
+        {
+            SubscribeListeners();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeListeners();
+        }
+
         /// <summary>
         /// Call to spawn a playable;
         /// </summary>
@@ -30,6 +43,11 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
             
             m_Speed = Vector3.Distance(position, Destination) / playableDTO.Duration;
             m_Direction = (Destination - position).normalized;
+        }
+        
+        private void FixedUpdate()
+        {
+            transform.position += m_Direction * m_Speed * Time.fixedDeltaTime;
         }
         
         /// <summary>
@@ -53,18 +71,39 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
             transform.position = Vector3.zero;
         }
         
-        /// <summary>
-        /// Called when the token was clicked
-        /// </summary>
-        /// <param name="eventData"></param>
-        public void OnPointerClick(PointerEventData eventData)
+        private void OnTapBegin()
         {
             if (IsInDestinationRadius)
             {
-                OnTokenClick();
+                OnTokenTapBegin();
             }
         }
         
-        protected abstract void OnTokenClick();
+        private void OnTapEnd(bool wasSuccessful)
+        {
+            if (IsInDestinationRadius && wasSuccessful)
+            {
+                Smash();
+                return;
+            }
+            
+            Miss();
+        }
+        
+        private void SubscribeListeners()
+        {
+            m_TapDetector.TapBegin += OnTapBegin;
+            m_TapDetector.TapEnd += OnTapEnd;
+        }
+        
+        private void UnsubscribeListeners()
+        {
+            m_TapDetector.TapBegin -= OnTapBegin;
+            m_TapDetector.TapEnd -= OnTapEnd;
+        }
+
+        protected virtual void OnTokenTapBegin()
+        {
+        }
     }
 }
