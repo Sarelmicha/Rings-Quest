@@ -16,6 +16,11 @@ namespace Happyflow.Utils
         private float m_TapStartTime;
         
         /// <summary>
+        /// The duration needed in order to tap the detection.
+        /// </summary>
+        public float TapDuration { get; set; }
+
+        /// <summary>
         /// Event raised when the user begins tapping on the object.
         /// </summary>
         public event Action TapBegin;
@@ -24,10 +29,7 @@ namespace Happyflow.Utils
         ///  Event raised when the user releases their finger from the object.
         /// </summary>
         public event Action<bool> TapEnd;
-
-        [Header("The duration in seconds that the user must tap on the object before a long tap is detected.")]
-        [SerializeField] private float m_TapDuration = 1.0f;
-
+        
         /// <summary>
         /// Called when the user presses down on the object.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Happyflow.Utils
         {
             m_IsTapping = false;
             float tapDuration = Time.time - m_TapStartTime;
-            bool wasSuccessful = tapDuration >= m_TapDuration;
+            bool wasSuccessful = tapDuration >= TapDuration;
 
             TapEnd?.Invoke(wasSuccessful);
         }
@@ -64,7 +66,7 @@ namespace Happyflow.Utils
             
             var tapDuration = Time.time - m_TapStartTime;
                 
-            if (tapDuration >= m_TapDuration)
+            if (tapDuration >= TapDuration)
             {
                 OnPointerUp(null);
             }

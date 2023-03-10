@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: AssetMapping
   m_EditorClassIdentifier: 
   m_AssetMappings:
-  - Name: string
-    Address: Token
+  - Name: BaseTapToken
+    Address: BaseTapToken
+  - Name: BaseHolderToken
+    Address: BaseHolderToken

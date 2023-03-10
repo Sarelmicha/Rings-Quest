@@ -2,23 +2,48 @@ using System;
 using Happyflow.RingsQuest.Gameplay.Playable.DTO;
 using Happyflow.Utils;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Happyflow.RingsQuest.Gameplay.Playable.Token
 {
     /// <summary>
     /// Token base implementation for the <see cref="PlayableBase"/>.
     /// </summary>
-    public class TokenBase : PlayableBase
+    public class TapToken : MonoBehaviour
     {
         [SerializeField] private float m_DistanceToSmash = 0.1f;
-        [SerializeField] private TapDetector m_TapDetector;
+        [SerializeField] protected TapDetector m_TapDetector;
+        [SerializeField] private float m_TapDurtation = 0.1f;
         
         protected float m_Speed;
+        protected float m_Duration;
+
         private Vector3 m_Direction;
+        private Vector3 m_Destination;
+
+        /// <summary>
+        /// Invoke when the token is smashed.
+        /// </summary>
+        public event Action TokenSmashed;
         
-        private Vector3 Destination => m_VerticesMapService.GetVertexTransform(PlayableDTO.Vertices[0]);
-        private bool IsInDestinationRadius => Vector2.Distance(gameObject.transform.position, Destination) < m_DistanceToSmash;
+        /// <summary>
+        /// Invoke when the token is missed.
+        /// </summary>
+        public event Action TokenMissed;
+        
+        private bool IsInDestinationRadius => Vector2.Distance(gameObject.transform.position, m_Destination) < m_DistanceToSmash;
+
+        public void Spawn(Vector3 destination, float duration)
+        {
+            // Calculate the required velocity
+            var position = transform.position;
+            m_Destination = destination;
+            m_Duration = duration;
+            
+            m_Speed = Vector3.Distance(position, m_Destination) / m_Duration;
+            m_Direction = (m_Destination - position).normalized;
+            
+            m_TapDetector.TapDuration = m_TapDurtation;
+        }
 
         private void Start()
         {
@@ -30,45 +55,9 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
             UnsubscribeListeners();
         }
 
-        /// <summary>
-        /// Call to spawn a playable;
-        /// </summary>
-        /// <param name="playableDTO">The playableDTO of the playable to spawn</param>
-        public override void Spawn(PlayableDTO playableDTO)
-        {
-            base.Spawn(playableDTO);
-            
-            // Calculate the required velocity
-            var position = transform.position;
-            
-            m_Speed = Vector3.Distance(position, Destination) / playableDTO.Duration;
-            m_Direction = (Destination - position).normalized;
-        }
-        
         private void FixedUpdate()
         {
             transform.position += m_Direction * m_Speed * Time.fixedDeltaTime;
-        }
-        
-        /// <summary>
-        /// Method to be executed when the token is smashed.
-        /// </summary>
-        protected override void Smash()
-        {
-            //Call some animation of smash
-            base.Smash();
-        }
-
-        protected override void Miss()
-        {
-            //Call some animation of miss
-            base.Miss();
-        }
-        
-        protected override void ResetState()
-        {
-            gameObject.SetActive(false);
-            transform.position = Vector3.zero;
         }
         
         private void OnTapBegin()
@@ -83,11 +72,11 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         {
             if (IsInDestinationRadius && wasSuccessful)
             {
-                Smash();
+                TokenSmashed?.Invoke();
                 return;
             }
             
-            Miss();
+            TokenMissed?.Invoke();
         }
         
         private void SubscribeListeners()

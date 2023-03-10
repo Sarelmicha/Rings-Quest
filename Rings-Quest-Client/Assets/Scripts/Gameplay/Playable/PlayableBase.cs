@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Happyflow.RingsQuest.Gameplay.Playable.DTO;
 using Happyflow.RingsQuest.Gameplay.Ring;
@@ -41,6 +40,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable
         public event Action<PlayableBase> OnMiss;
 
         protected IVerticesMapService m_VerticesMapService;
+        protected PlayableStatus m_PlayableStatus;
         private PlayableDTO m_PlayableDTO;
         
         /// <summary>
@@ -51,6 +51,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable
         {
             m_VerticesMapService = verticesMapService;
             gameObject.SetActive(false);
+            m_PlayableStatus = new PlayableStatus();
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable
         /// Validate that the required data that was received is valid. 
         /// </summary>
         /// <returns>True if the data is valid, otherwise return False.</returns>
-        private bool IsDataValid(PlayableDTO playableBase)
+        protected virtual bool IsDataValid(PlayableDTO playableBase)
         {
             if (playableBase.Vertices == null || playableBase.Vertices.Length == 0)
             {
@@ -88,17 +89,33 @@ namespace Happyflow.RingsQuest.Gameplay.Playable
         /// </summary>
         protected virtual void Smash()
         {
+            if (m_PlayableStatus != PlayableStatus.Idle)
+            {
+                return;
+            }
+            m_PlayableStatus = PlayableStatus.Smashed;
             ResetState();
             OnSmash?.Invoke(this);
         }
 
         protected virtual void Miss()
         {
+            if (m_PlayableStatus != PlayableStatus.Idle)
+            {
+                return;
+            }
+            
+            m_PlayableStatus = PlayableStatus.Missed;
             ResetState();
             OnMiss?.Invoke(this);
         }
 
-        protected abstract void ResetState();
+        protected virtual void ResetState()
+        {
+            m_PlayableStatus = PlayableStatus.Idle;
+            gameObject.SetActive(false);
+            transform.position = Vector3.zero;
+        }
 
         private void OnTriggerExit2D(Collider2D other)
         {

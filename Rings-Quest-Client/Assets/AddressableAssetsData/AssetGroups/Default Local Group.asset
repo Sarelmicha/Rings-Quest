@@ -21,8 +21,20 @@ MonoBehaviour:
     m_Address: AssetMapping
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: a7ec21059b30b514795cb7eea5cfcd05
-    m_Address: Token
+  - m_GUID: e8bfb0da6da72b14aa295269e31ca388
+    m_Address: MultiTapToken
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4c1a05dd424cf2e4e8a1e167eee73378
+    m_Address: BaseHolderToken
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e2b940d025fc26c4fa556b18d807e4e5
+    m_Address: BaseTapToken
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 67c708fdcd56f0e49ac6a75bbbdf2da5
+    m_Address: MultiHolderToken
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
