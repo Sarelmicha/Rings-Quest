@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: AssetMapping
   m_EditorClassIdentifier: 
   m_AssetMappings:
-  - Name: BaseTapToken
+  - Name: SingleTapToken
     Address: SingleTapToken
-  - Name: BaseHolderToken
+  - Name: SingleHolderToken
     Address: SingleHolderToken
   - Name: MultiTapToken
     Address: MultiTapToken

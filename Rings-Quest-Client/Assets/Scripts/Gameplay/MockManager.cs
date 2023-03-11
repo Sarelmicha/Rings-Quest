@@ -28,7 +28,7 @@ namespace Happyflow.RingsQuest.Gameplay
         {
             m_NetworkService = ServiceLocator.Instance.Get<INetworkService>();
             
-            var networkResponse = await m_RetryStrategy.TryOperationAsync(() => m_NetworkService.Get("levels/order/2"),
+            var networkResponse = await m_RetryStrategy.TryOperationAsync(() => m_NetworkService.Get("levels/order/0"),
                 networkResponse => networkResponse.IsSuccess);
 
             if (!networkResponse.IsSuccess)
