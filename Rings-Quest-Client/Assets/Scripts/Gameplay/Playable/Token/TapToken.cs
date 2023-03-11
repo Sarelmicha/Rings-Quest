@@ -38,7 +38,8 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         /// </summary>
         /// <param name="playableDTO">The playableDTO of the token to spawn.</param>
         /// <param name="destination">The destination of the token.</param>
-        public virtual void Spawn(PlayableDTO playableDTO, Vector3 destination)
+        /// <param name="initialDistanceFactor">The value of the initial distance factor of the location of the token.</param>
+        public virtual void Spawn(PlayableDTO playableDTO, Vector3 destination, float initialDistanceFactor)
         {
             // Calculate the required velocity
             var position = transform.position;
@@ -48,6 +49,9 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
             m_Speed = Vector3.Distance(position, m_Destination) / m_TTL;
             m_Direction = (m_Destination - position).normalized;
             m_TapDetector.TapDuration = m_TapDurtation;
+            
+            position = m_Direction * initialDistanceFactor;
+            transform.position = position;
         }
 
         private void Start()

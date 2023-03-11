@@ -7,6 +7,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
     public class TokenController : PlayableBase
     {
         [SerializeField] private List<TapToken> m_Tokens;
+        [SerializeField] private CircleCollider2D m_Collider;
         private int m_NumOfSmashedTokens;
         
         /// <summary>
@@ -26,7 +27,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
 
         private void SpawnToken(TapToken token, Vector2 destination)
         {
-            token.Spawn(PlayableDTO, destination);
+            token.Spawn(PlayableDTO, destination, m_Collider.radius);
         }
 
         private void SubscribeTokenListeners(TapToken token)

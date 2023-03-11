@@ -21,9 +21,10 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         /// </summary>
         /// <param name="playableDTO">The playableDTO of the token to spawn.</param>
         /// <param name="destination">The destination of the token.</param>
-        public override void Spawn(PlayableDTO playableDTO, Vector3 destination)
+        /// <param name="initialDistanceFactor"></param>
+        public override void Spawn(PlayableDTO playableDTO, Vector3 destination, float initialDistanceFactor)
         {
-            base.Spawn(playableDTO, destination);
+            base.Spawn(playableDTO, destination, initialDistanceFactor);
             m_TapDurtation = playableDTO.InteractableTime;
         }
         
