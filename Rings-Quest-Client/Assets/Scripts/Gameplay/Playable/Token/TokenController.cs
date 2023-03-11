@@ -26,7 +26,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
 
         private void SpawnToken(TapToken token, Vector2 destination)
         {
-            token.Spawn(destination, PlayableDTO.Duration);
+            token.Spawn(PlayableDTO, destination);
         }
 
         private void SubscribeTokenListeners(TapToken token)

@@ -1,5 +1,6 @@
 using System;
 using Happyflow.RingsQuest.Gameplay.Playable.DTO;
+using Happyflow.RingsQuest.Gameplay.Ring;
 using Happyflow.Utils;
 using UnityEngine;
 
@@ -12,10 +13,10 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
     {
         [SerializeField] private float m_DistanceToSmash = 0.1f;
         [SerializeField] protected TapDetector m_TapDetector;
-        [SerializeField] private float m_TapDurtation = 0.1f;
+        [SerializeField] protected float m_TapDurtation = 0.1f;
         
         protected float m_Speed;
-        protected float m_Duration;
+        private float m_TTL;
 
         private Vector3 m_Direction;
         private Vector3 m_Destination;
@@ -32,16 +33,20 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         
         private bool IsInDestinationRadius => Vector2.Distance(gameObject.transform.position, m_Destination) < m_DistanceToSmash;
 
-        public void Spawn(Vector3 destination, float duration)
+        /// <summary>
+        /// Call to spawn a playable;
+        /// </summary>
+        /// <param name="playableDTO">The playableDTO of the token to spawn.</param>
+        /// <param name="destination">The destination of the token.</param>
+        public virtual void Spawn(PlayableDTO playableDTO, Vector3 destination)
         {
             // Calculate the required velocity
             var position = transform.position;
             m_Destination = destination;
-            m_Duration = duration;
-            
-            m_Speed = Vector3.Distance(position, m_Destination) / m_Duration;
+
+            m_TTL = playableDTO.TTL;
+            m_Speed = Vector3.Distance(position, m_Destination) / m_TTL;
             m_Direction = (m_Destination - position).normalized;
-            
             m_TapDetector.TapDuration = m_TapDurtation;
         }
 
@@ -93,6 +98,16 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
 
         protected virtual void OnTokenTapBegin()
         {
+        }
+        
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.GetComponent<RingManager>() == null)
+            {
+                return;
+            }
+
+            TokenMissed?.Invoke();
         }
     }
 }

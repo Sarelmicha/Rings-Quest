@@ -17,3 +17,5 @@ MonoBehaviour:
     Address: BaseTapToken
   - Name: BaseHolderToken
     Address: BaseHolderToken
+  - Name: MultiTapToken
+    Address: MultiTapToken

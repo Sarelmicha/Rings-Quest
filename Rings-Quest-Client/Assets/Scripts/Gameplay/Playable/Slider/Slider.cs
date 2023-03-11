@@ -44,7 +44,7 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Slider
         private IEnumerator Draw()
         {
             m_ShapeDrawerStrategy.Draw();
-            yield return new WaitForSeconds(PlayableDTO.Duration);
+            yield return new WaitForSeconds(PlayableDTO.TTL);
             ResetState();
         }
         private void OnDragStarted()

@@ -1,4 +1,5 @@
 using System;
+using Happyflow.RingsQuest.Gameplay.Playable.DTO;
 using UnityEngine;
 
 namespace Happyflow.RingsQuest.Gameplay.Playable.Token
@@ -15,11 +16,22 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
             m_TrailRenderer.time = Single.PositiveInfinity;
         }
 
+        /// <summary>
+        /// Call to spawn a playable;
+        /// </summary>
+        /// <param name="playableDTO">The playableDTO of the token to spawn.</param>
+        /// <param name="destination">The destination of the token.</param>
+        public override void Spawn(PlayableDTO playableDTO, Vector3 destination)
+        {
+            base.Spawn(playableDTO, destination);
+            m_TapDurtation = playableDTO.InteractableTime;
+        }
+        
         protected override void OnTokenTapBegin()
         {
             m_Speed = 0;
-            m_TrailRenderer.time = m_Duration;
-            m_TapDetector.TapDuration = m_Duration;
+            m_TrailRenderer.time = m_TapDurtation;
+            m_TapDetector.TapDuration = m_TapDurtation;
         }
     }
 }

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8689689980920394547}
   - component: {fileID: 8689689980920394544}
-  - component: {fileID: 8689689980920394545}
   - component: {fileID: 5230723083905974908}
   - component: {fileID: 9075719865149762785}
+  - component: {fileID: 8689689980920394545}
+  - component: {fileID: 8269068840439246166}
   m_Layer: 0
   m_Name: Tap Token
   m_TagString: Untagged
@@ -87,6 +88,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5230723083905974908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8689689980920394556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56c1b9a16df4d24e8a4dc108f0782d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DistanceToSmash: 0.3
+  m_TapDetector: {fileID: 9075719865149762785}
+  m_TapDurtation: 0.1
+--- !u!114 &9075719865149762785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8689689980920394556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2164e9e8bd34da4a85d25ced69d09d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &8689689980920394545
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -103,30 +131,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.4
---- !u!114 &5230723083905974908
-MonoBehaviour:
+--- !u!50 &8269068840439246166
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8689689980920394556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b56c1b9a16df4d24e8a4dc108f0782d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DistanceToSmash: 0.3
-  m_TapDetector: {fileID: 9075719865149762785}
---- !u!114 &9075719865149762785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8689689980920394556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2164e9e8bd34da4a85d25ced69d09d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TapDuration: 0.1
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

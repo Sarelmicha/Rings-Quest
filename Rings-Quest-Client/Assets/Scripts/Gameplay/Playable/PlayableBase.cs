@@ -116,15 +116,5 @@ namespace Happyflow.RingsQuest.Gameplay.Playable
             gameObject.SetActive(false);
             transform.position = Vector3.zero;
         }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.GetComponent<RingManager>() == null)
-            {
-                return;
-            }
-
-            Miss();
-        }
     }
 }

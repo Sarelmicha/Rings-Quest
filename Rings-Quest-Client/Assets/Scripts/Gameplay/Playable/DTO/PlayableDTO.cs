@@ -21,9 +21,14 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.DTO
         public float Cooldown { get; set; }
         
         /// <summary>
-        /// The duration of the playable.
+        /// The amount of time that the playable will live.
         /// </summary>
-        public float Duration { get; set; }
+        public float TTL { get; set; }
+        
+        /// <summary>
+        /// The amount of time that the playable is interactable to the user.
+        /// </summary>
+        public float InteractableTime { get; set; }
 
         /// <summary>
         /// The vertices that the playable should interact with.
