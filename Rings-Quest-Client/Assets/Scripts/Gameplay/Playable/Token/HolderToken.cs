@@ -11,8 +11,9 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
     {
         [SerializeField] private TrailRenderer m_TrailRenderer;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_TrailRenderer.time = Single.PositiveInfinity;
         }
 

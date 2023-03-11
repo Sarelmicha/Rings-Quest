@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2117928456934515013}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,6 +104,7 @@ MonoBehaviour:
   m_DistanceToSmash: 0.3
   m_TapDetector: {fileID: 2117928456934515032}
   m_TapDurtation: 0.1
+  m_ScaleDuration: 0.5
   m_TrailRenderer: {fileID: 2117928456934515014}
 --- !u!96 &2117928456934515014
 TrailRenderer:

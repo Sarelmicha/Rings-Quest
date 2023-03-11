@@ -20,6 +20,15 @@ namespace Happyflow.Utils.Movement
             Action onComplete = null);
 
         /// <summary>
+        /// Scale the transform to a specific scale. 
+        /// </summary>
+        /// <param name="obj">The transform of the moving object.</param>
+        /// <param name="targetScale">The scale to scale to.</param>
+        /// <param name="duration">The duration of the scale.</param>
+        /// <param name="onComplete">Call when scale is finished.</param>
+        void Scale(Transform obj, Vector3 targetScale, float duration, Action onComplete = null);
+
+        /// <summary>
         /// Stop the tween
         /// </summary>
         void StopTween();

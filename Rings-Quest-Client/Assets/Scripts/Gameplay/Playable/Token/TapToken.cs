@@ -2,6 +2,7 @@ using System;
 using Happyflow.RingsQuest.Gameplay.Playable.DTO;
 using Happyflow.RingsQuest.Gameplay.Ring;
 using Happyflow.Utils;
+using Happyflow.Utils.Movement;
 using UnityEngine;
 
 namespace Happyflow.RingsQuest.Gameplay.Playable.Token
@@ -14,7 +15,9 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         [SerializeField] private float m_DistanceToSmash = 0.1f;
         [SerializeField] protected TapDetector m_TapDetector;
         [SerializeField] protected float m_TapDurtation = 0.1f;
-        
+        [SerializeField] private float m_ScaleDuration;
+
+        private IMovementTweener m_Tweener;
         protected float m_Speed;
         private float m_TTL;
 
@@ -33,6 +36,11 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         
         private bool IsInDestinationRadius => Vector2.Distance(gameObject.transform.position, m_Destination) < m_DistanceToSmash;
 
+        protected virtual void Awake()
+        {
+            m_Tweener = new DoTweenTweener();
+        }
+
         /// <summary>
         /// Call to spawn a playable;
         /// </summary>
@@ -42,18 +50,20 @@ namespace Happyflow.RingsQuest.Gameplay.Playable.Token
         public virtual void Spawn(PlayableDTO playableDTO, Vector3 destination, float initialDistanceFactor)
         {
             // Calculate the required velocity
-            var position = transform.position;
+            var tokenTransform = transform;
+            var position = tokenTransform.position;
+            
             m_Destination = destination;
-
             m_TTL = playableDTO.TTL;
-            m_Speed = Vector3.Distance(position, m_Destination) / m_TTL;
             m_Direction = (m_Destination - position).normalized;
             m_TapDetector.TapDuration = m_TapDurtation;
-            
             position = m_Direction * initialDistanceFactor;
-            transform.position = position;
+            tokenTransform.position = position;
+            
+            m_Tweener.Scale(tokenTransform, Vector3.one, m_ScaleDuration, 
+                () => m_Speed = Vector3.Distance(position, m_Destination) / m_TTL);
         }
-
+        
         private void Start()
         {
             SubscribeListeners();
